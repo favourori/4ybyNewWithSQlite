@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:fourybyoffline/src/views/home.dart';
 import 'package:fourybyoffline/src/views/login.dart';
 import 'package:fourybyoffline/utils/color_utils.dart';
+import 'package:fourybyoffline/dashboard/dashboard.dart';
 import 'package:fourybyoffline/utils/margin_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Chooser extends StatefulWidget {
   @override
@@ -34,7 +37,7 @@ class _ChooserState extends State<Chooser> {
                       fontWeight: FontWeight.w300)),
               MarginUtils.mg40,
               Text("Choose a category that applies to you",
-              textAlign: TextAlign.center,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 13,
@@ -46,13 +49,26 @@ class _ChooserState extends State<Chooser> {
                   minWidth: 220.0,
                   height: 60.0,
                   child: FlatButton(
-                    onPressed: () {
-                      /* Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(),
-                        ),
-                      ); */
+                    onPressed: () async {
+                      SharedPreferences prefs;
+                      var rand = new Random();
+                      int randID = rand.nextInt(100000);
+                      try {
+                        prefs = await SharedPreferences.getInstance();
+                      } catch (e) {
+                        print(e.message);
+                      } finally {
+                        prefs.setInt('currentUser', randID).then((bool res) {
+                          if (res) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DashboardWidget(),
+                              ),
+                            );
+                          }
+                        });
+                      }
                     },
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
