@@ -281,7 +281,7 @@ var questions = [
   Question(
     q: 'At what age did you first have sex?',
     hasTextField: true,
-    type: 'number',
+    type: 'text',
   ),
   Question(
     q: 'In the last 6 months, have you ever had sex without condom?',
