@@ -1,12 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:fourybyoffline/common/colors.dart';
-import 'package:fourybyoffline/dashboard/dashboard.dart';
 import 'package:fourybyoffline/dashboard/base_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fourybyoffline/src/views/home.dart';
-import 'package:fourybyoffline/dashboard/answer_manager.dart';
+import 'package:fourybyoffline/dashboard/upload/photo_upload.dart';
 
 class FinishTestWidget extends StatefulWidget {
   @override
@@ -17,7 +12,6 @@ class FinishTestWidget extends StatefulWidget {
 
 class FinishTestWidgetState extends BaseState<FinishTestWidget> {
   FinishTestWidgetState() : super('FINISH TEST');
-  final answerManager = new AnswerManager();
 
   @override
   Widget buildBody(BuildContext context) {
@@ -48,39 +42,32 @@ class FinishTestWidgetState extends BaseState<FinishTestWidget> {
           ),
         ),
         new Container(
+          decoration: new BoxDecoration(
+              borderRadius: const BorderRadius.all(const Radius.circular(10.0)),
+              color: Colors.black12.withOpacity(0.06)),
+          child: new Text(
+            'After you have completed your test, please upload photos of your test '
+                'result as shown in the sample below',
+            style: const TextStyle(fontSize: 16.0),
+          ),
+          padding: const EdgeInsets.all(15.0),
+          margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+        ),
+        new Container(
+          margin: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: new Image.asset('assets/images/test_kit.jpg'),
+        ),
+        new Container(
           width: double.infinity,
           margin: const EdgeInsets.only(left: 40, right: 40, top: 60),
           child: new RaisedButton(
-            onPressed: () async {
-              SharedPreferences prefs;
-              var rand = new Random();
-              int randID = rand.nextInt(100000);
-              try {
-                prefs = await SharedPreferences.getInstance();
-              } catch (e) {
-                print(e.message);
-              } finally {
-                prefs.clear().then((isCleared) {
-                  if (isCleared) {
-                    prefs.setInt('currentUser', randID).then((bool res) {
-                      if (res) {
-                        answerManager.textFormTextHolder.clear();
-                        answerManager.questionsHolder.clear();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DashboardWidget(),
-                          ),
-                        );
-                      }
-                    });
-                  }
-                });
-              }
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  new MaterialPageRoute(builder: (_) => new UploadWidget()));
             },
             padding: const EdgeInsets.symmetric(vertical: 15.0),
             textColor: Colors.white,
-            child: const Text('START NEW ENTRY'),
+            child: const Text('UPLOAD PHOTOS'),
             color: MyColors.orange,
             shape: const RoundedRectangleBorder(
                 borderRadius:

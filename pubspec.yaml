@@ -24,6 +24,7 @@ dependencies:
   url_launcher: ^4.0.1
   flutter_svg: ^0.6.3
   flutter_youtube: ^1.1.4
+  image_picker: ^0.4.10
   path: ^1.6.2
   csv: ^4.0.1
   permission_handler: ^3.0.0

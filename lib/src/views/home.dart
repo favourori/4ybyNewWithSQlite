@@ -13,6 +13,8 @@ class _HomePageState extends State<HomePage> {
   int totalEntries = 0;
   int totalMaleEntries = 0;
   int totalFemaleEntries = 0;
+  int totalTransEntries = 0;
+  int transEntriesPercentage = 0;
   int femaleEntriesPercentage = 0;
   int maleEntriesPercentage = 0;
 
@@ -20,6 +22,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     getEntriesData();
     super.initState();
+  }
+
+  getTotalTransEntries() async {
+    await db.getTotalGenderEntries('Transgender').then((res) {
+      setState(() {
+        totalTransEntries = res;
+        transEntriesPercentage = ((res / totalEntries) * 100).ceil();
+      });
+    });
   }
 
   getTotalFemaleEntries() async {
@@ -47,6 +58,7 @@ class _HomePageState extends State<HomePage> {
       });
       getTotalMaleEntries();
       getTotalFemaleEntries();
+      getTotalTransEntries();
     });
   }
 
@@ -392,6 +404,88 @@ class _HomePageState extends State<HomePage> {
                                                       vertical: 8),
                                               child: Text(
                                                   '$maleEntriesPercentage%',
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
+                                            )),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: InkWell(
+              onTap: () {},
+              child: Card(
+                  color: Color(0xFFe1b12c),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Container(
+                        height: height,
+                        //width: width2,
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Text("Transgender",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w200)),
+                                ],
+                              ),
+                              MarginUtils.mg10,
+                              Container(
+                                width: 300,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(totalTransEntries.toString(),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        Card(
+                                            color: Colors.black12,
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 18.0,
+                                                      vertical: 8),
+                                              child: Text(
+                                                  '$transEntriesPercentage%',
                                                   style: TextStyle(
                                                       color: Colors.white)),
                                             )),

@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:fourybyoffline/data/database.dart';
 import 'package:fourybyoffline/data/userDataModel.dart';
 import 'package:fourybyoffline/data/responseModel.dart';
+import 'package:fourybyoffline/src/views/viewPhotos.dart';
 
 class AllEntries extends StatefulWidget {
   @override
@@ -122,12 +123,6 @@ class _AllEntriesState extends State<AllEntries> {
   void initState() {
     getResponses();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    db.close();
-    super.dispose();
   }
 
   getResponses() async {
@@ -439,6 +434,8 @@ class _AllEntriesState extends State<AllEntries> {
         itemBuilder: (BuildContext context, int i) {
           double screenSize = MediaQuery.of(context).size.width;
           return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
                 child: Row(
@@ -450,7 +447,8 @@ class _AllEntriesState extends State<AllEntries> {
                           EdgeInsets.symmetric(horizontal: 10, vertical: 14),
                       child: Text(resultData[i].studyID.toString()),
                       decoration: BoxDecoration(
-                        color: (i%2 == 0) ? Colors.grey[300] : Colors.grey[200],
+                        color:
+                            (i % 2 == 0) ? Colors.grey[300] : Colors.grey[200],
                       ),
                     ),
                     Container(
@@ -460,39 +458,46 @@ class _AllEntriesState extends State<AllEntries> {
                         color: Colors.grey[700],
                       ),
                     ),
+                    Container(
+                      width: screenSize * 0.54,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+                      child: Text(
+                        '${resultData[i].firstName} ${resultData[i].lastName}',
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      decoration: BoxDecoration(
+                        color:
+                            (i % 2 == 0) ? Colors.grey[300] : Colors.grey[200],
+                      ),
+                    ),
                     Expanded(
-                      child: Container(
-                        width: screenSize * 0.80,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 14),
-                        child: Text(
-                          '${resultData[i].firstName} ${resultData[i].lastName}',
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        decoration: BoxDecoration(
-                          color: (i%2 == 0) ? Colors.grey[300] : Colors.grey[200],
+                      child: InkResponse(
+                        onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => ViewPhotos(
+                                        name:
+                                            '${resultData[i].firstName} ${resultData[i].lastName}',
+                                        studyID: resultData[i].studyID,
+                                      )),
+                            ),
+                        child: Container(
+                          width: screenSize * 0.20,
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          padding: EdgeInsets.symmetric(vertical: 6),
+                          child: Center(
+                            child: Text(
+                              'Photos',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
                       ),
                     ),
-                    // Expanded(
-                    //   child: Container(
-                    //     width: screenSize*0.30,
-                    //     margin: EdgeInsets.symmetric(horizontal: 5),
-                    //     padding: EdgeInsets.symmetric(vertical: 6),
-                    //     child: Center(
-                    //       child: Text(
-                    //         'Export',
-                    //         style: TextStyle(
-                    //           color: Colors.white
-                    //         ),
-                    //         ),
-                    //     ),
-                    //     decoration: BoxDecoration(
-                    //       color: Colors.red,
-                    //       borderRadius: BorderRadius.circular(20),
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -512,37 +517,38 @@ class _AllEntriesState extends State<AllEntries> {
 
   clearEntries() {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Container(
-            child: Text('Are you sure you want to clear all data entries? This process can not be undone.'),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: () => Navigator.of(context).pop(),
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
               child: Text(
-                'No',
-              style: TextStyle(
-                color: Colors.grey[400],
-              ),
-              ),
+                  'Are you sure you want to clear all data entries? This process can not be undone.'),
             ),
-            FlatButton(
-              onPressed: () async {
-                await db.truncate();
-                Navigator.of(context).pop();
-              },
-              child: Text('Yes',
-              style: TextStyle(
-                color: Color.fromRGBO(0, 154, 158, 1),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(
+                  'No',
+                  style: TextStyle(
+                    color: Colors.grey[400],
+                  ),
+                ),
               ),
+              FlatButton(
+                onPressed: () async {
+                  await db.truncate();
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Yes',
+                  style: TextStyle(
+                    color: Color.fromRGBO(0, 154, 158, 1),
+                  ),
+                ),
               ),
-            ),
-          ],
-        );
-      }
-    );
+            ],
+          );
+        });
   }
 
   @override
@@ -574,7 +580,7 @@ class _AllEntriesState extends State<AllEntries> {
         ],
       ),
       body: Container(
-      margin: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+        margin: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
         child: Column(
           children: <Widget>[
             new Container(
@@ -592,7 +598,9 @@ class _AllEntriesState extends State<AllEntries> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(right: 5,),
+                        margin: EdgeInsets.only(
+                          right: 5,
+                        ),
                         child: Icon(
                           Icons.search,
                           color: Colors.grey[400],
@@ -619,7 +627,7 @@ class _AllEntriesState extends State<AllEntries> {
                       ),
                       textController.text.length > 0
                           ? Container(
-                            alignment: Alignment.center,
+                              alignment: Alignment.center,
                               child: IconButton(
                                 icon: Icon(
                                   Icons.cancel,
