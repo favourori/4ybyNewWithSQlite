@@ -1,9 +1,17 @@
 import 'package:fourybyoffline/dashboard/questions/question.dart';
+
 class AnswerManager {
   static final AnswerManager _singleton = new AnswerManager._internal();
 
-  var questionsHolder = new List(questions.length);
-  var textFormTextHolder = new List(questions.length);
+  List questionsHolder = [];
+  List textFormTextHolder = [];
+
+  fieldPH() {
+    for (int i = 0; i < questions.length; i++) {
+      questionsHolder.add(null);
+      textFormTextHolder.add(null);
+    }
+  }
 
   factory AnswerManager() {
     return _singleton;

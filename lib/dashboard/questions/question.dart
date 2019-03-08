@@ -54,6 +54,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 
   @override
   void initState() {
+    answerManager.fieldPH();
     selectedItem =
         answerManager.questionsHolder[questions.indexOf(widget.question)];
     controller = new TextEditingController(
@@ -61,6 +62,12 @@ class _QuestionWidgetState extends State<QuestionWidget> {
             .textFormTextHolder[questions.indexOf(widget.question)]);
             initCurrentUser();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   void initCurrentUser() async {
@@ -142,7 +149,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                     ),
                   )),
                 )
-              : new Container(),
+              : new Container(), 
           widget.question.options == null ||
                   widget.question.hasTextField &&
                       selectedItem != null &&
@@ -302,7 +309,7 @@ var questions = [
   Question(
     q: 'How long ago was your most recent HIV test?',
     hasTextField: true,
-    type: 'number',
+    type: 'text',
   ),
   Question(
       q: 'What was your most recent HIV test result?',

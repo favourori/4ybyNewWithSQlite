@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fourybyoffline/utils/margin_utils.dart';
+import 'package:fourybyoffline/data/database.dart';
+import 'package:fourybyoffline/src/views/allEntries.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -7,6 +9,47 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var db = new DatabaseHelper();
+  int totalEntries = 0;
+  int totalMaleEntries = 0;
+  int totalFemaleEntries = 0;
+  int femaleEntriesPercentage = 0;
+  int maleEntriesPercentage = 0;
+
+  @override
+  void initState() {
+    getEntriesData();
+    super.initState();
+  }
+
+  getTotalFemaleEntries() async {
+    await db.getTotalGenderEntries('Female').then((res) {
+      setState(() {
+        totalFemaleEntries = res;
+        femaleEntriesPercentage = ((res / totalEntries) * 100).ceil();
+      });
+    });
+  }
+
+  getTotalMaleEntries() async {
+    await db.getTotalGenderEntries('Male').then((res) {
+      setState(() {
+        totalMaleEntries = res;
+        maleEntriesPercentage = ((res / totalEntries) * 100).ceil();
+      });
+    });
+  }
+
+  getEntriesData() async {
+    await db.getTotalEntries().then((res) {
+      setState(() {
+        totalEntries = res;
+      });
+      getTotalMaleEntries();
+      getTotalFemaleEntries();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height * 0.2;
@@ -44,12 +87,9 @@ class _HomePageState extends State<HomePage> {
                   child: Column(children: <Widget>[
                     InkWell(
                       onTap: () {
-                        /* Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BlogMore(),
-                          ),
-                        ); */
+                        Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => AllEntries()));
                       },
                       child: Row(
                         children: <Widget>[
@@ -65,30 +105,30 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 60),
-                    InkWell(
-                      onTap: () {
-                        /* Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => VideoMore(),
-                          ),
-                        ); */
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.import_export,
-                            color: Colors.white,
-                          ),
-                          SizedBox(width: 20),
-                          Text(
-                            "Export Entries",
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
-                      ),
-                    ),
+                    // SizedBox(height: 60),
+                    // InkWell(
+                    //   onTap: () {
+                    //     /* Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => VideoMore(),
+                    //       ),
+                    //     ); */
+                    //   },
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       Icon(
+                    //         Icons.import_export,
+                    //         color: Colors.white,
+                    //       ),
+                    //       SizedBox(width: 20),
+                    //       Text(
+                    //         "Export Entries",
+                    //         style: TextStyle(color: Colors.white),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(height: 60),
                     InkWell(
                         onTap: () {
@@ -164,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text("500",
+                                        Text(totalEntries.toString(),
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 25,
@@ -187,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 18.0,
                                                       vertical: 8),
-                                              child: Text("40%",
+                                              child: Text(totalEntries > 0 ? '100%' : '0%',
                                                   style: TextStyle(
                                                       color: Colors.white)),
                                             )),
@@ -245,7 +285,7 @@ class _HomePageState extends State<HomePage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text("300",
+                                        Text(totalFemaleEntries.toString(),
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 25,
@@ -268,7 +308,8 @@ class _HomePageState extends State<HomePage> {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 18.0,
                                                       vertical: 8),
-                                              child: Text("60%",
+                                              child: Text(
+                                                  '$femaleEntriesPercentage%',
                                                   style: TextStyle(
                                                       color: Colors.white)),
                                             )),
@@ -326,7 +367,7 @@ class _HomePageState extends State<HomePage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text("200",
+                                        Text(totalMaleEntries.toString(),
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 25,
@@ -349,7 +390,8 @@ class _HomePageState extends State<HomePage> {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 18.0,
                                                       vertical: 8),
-                                              child: Text("40%",
+                                              child: Text(
+                                                  '$maleEntriesPercentage%',
                                                   style: TextStyle(
                                                       color: Colors.white)),
                                             )),
@@ -372,7 +414,10 @@ class _HomePageState extends State<HomePage> {
               minWidth: 90.0,
               height: 50.0,
               child: RaisedButton(
-                onPressed: () => print('clicked'),
+                onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => AllEntries()),
+                    ),
                 color: Theme.of(context).primaryColor,
                 textColor: Colors.white,
                 child: Text('View Entries'),

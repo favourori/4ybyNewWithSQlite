@@ -50,6 +50,31 @@ class DatabaseHelper {
     return result;
   }
 
+  Future<List<Map>> getAnswer(String question, int studyID) async {
+    var dbClient = await db;
+    List<Map> result = await dbClient.rawQuery('SELECT answer FROM responses WHERE question = \'$question\' AND studyID=\'$studyID\'');
+    return result;
+  }
+
+  Future<int> getTotalGenderEntries(String gender) async {
+    var dbClient = await db;
+    String question = 'What is your gender?';
+    List<Map> result = await dbClient.rawQuery('SELECT DISTINCT studyID FROM responses WHERE question = \'$question\' AND answer=\'$gender\'');
+    return result.length;
+  }
+  
+  Future<List<Map>> getEntries() async {
+    var dbClient = await db;
+    List<Map> result = await dbClient.rawQuery('SELECT DISTINCT studyID FROM responses');
+    return result.toList();
+  }
+  
+  Future<int> getTotalEntries() async {
+    var dbClient = await db;
+    List<Map> result = await dbClient.rawQuery('SELECT DISTINCT studyID FROM responses');
+    return result.length;
+  }
+
   Future<int> updateQuestion(int studyID, String question, String answer) async {
     var dbClient = await db;
     return await dbClient.rawUpdate('UPDATE responses SET answer = \'$answer\' WHERE studyID = $studyID AND question = \'$question\'');
@@ -63,6 +88,12 @@ class DatabaseHelper {
   Future<int> deleteQuestion(int id) async {
     var dbClient = await db;
     return await dbClient.rawDelete('DELETE FROM responses WHERE id = $id');
+  }
+  
+  Future<int> truncate() async {
+    var dbClient = await db;
+    List<Map> result = await dbClient.rawQuery('TRUNCATE TABLE responses');
+    return result.length;
   }
 
   Future close() async {

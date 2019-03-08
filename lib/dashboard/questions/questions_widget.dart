@@ -100,14 +100,27 @@ class _QuestionsWidgetState extends BaseState<QuestionsWidget>
                       )
                     : const SizedBox(),
                 new RaisedButton(
-                  onPressed: answered() 
+                  onPressed: answered()
                       ? () {
-                          _currentIndex == (questions.length - 1)
-                              ? Navigator.pushReplacement(
+                          if (_currentIndex == (questions.length - 1)) {
+                            if (questions[_currentIndex].type != 'std') {
+                              new UserResponse(
+                                      question: questions[_currentIndex].q,
+                                      answer: questions[_currentIndex]
+                                                  .hasTextField &&
+                                              inputtedAnswer != null
+                                          ? inputtedAnswer
+                                          : selectedAnswer)
+                                  .saveResponse(
+                                      studyID: currentUser, type: 'Questions');
+                              Navigator.pushReplacement(
                                   context,
                                   new MaterialPageRoute(
-                                      builder: (_) => new FinishTestWidget()))
-                              : goToNextQuestion(questions[_currentIndex]);
+                                      builder: (_) => new FinishTestWidget()));
+                            }
+                          } else {
+                            goToNextQuestion(questions[_currentIndex]);
+                          }
                         }
                       : null,
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -150,22 +163,20 @@ class _QuestionsWidgetState extends BaseState<QuestionsWidget>
         : 1;
 
     _tabController.animateTo(_currentIndex + skipIndex);
-    if(question.type != 'std') {
+    if (question.type != 'std') {
       new UserResponse(
-            question: question.q,
-            answer: question.hasTextField && inputtedAnswer != null
-                ? inputtedAnswer
-                : selectedAnswer)
-        .saveResponse(
-            studyID: currentUser,
-            type: 'Questions');
+              question: question.q,
+              answer: question.hasTextField && inputtedAnswer != null
+                  ? inputtedAnswer
+                  : selectedAnswer)
+          .saveResponse(studyID: currentUser, type: 'Questions');
     }
   }
 
   bool answered() {
     var question = questions[_currentIndex];
     if (question.hasTextField) {
-      if(question.type == 'std') {
+      if (question.type == 'std') {
         return true;
       } else if (question.options == null) {
         return MyUtils.isValid(inputtedAnswer);
