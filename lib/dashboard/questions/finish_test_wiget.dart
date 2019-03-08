@@ -87,28 +87,6 @@ class FinishTestWidgetState extends BaseState<FinishTestWidget> {
                     const BorderRadius.all(const Radius.circular(50.0))),
           ),
         ),
-
-        new Container(
-          width: double.infinity,
-          margin: const EdgeInsets.only(left: 40, right: 40, top: 60),
-          child: new RaisedButton(
-            onPressed: () async {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(),
-                          ),
-                        );
-            },
-            padding: const EdgeInsets.symmetric(vertical: 15.0),
-            textColor: Colors.white,
-            child: const Text('ADMIN'),
-            color: MyColors.orange,
-            shape: const RoundedRectangleBorder(
-                borderRadius:
-                    const BorderRadius.all(const Radius.circular(50.0))),
-          ),
-        )
       ],
     );
   }
