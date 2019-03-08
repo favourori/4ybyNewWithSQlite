@@ -516,7 +516,7 @@ class _AllEntriesState extends State<AllEntries> {
       builder: (BuildContext context) {
         return AlertDialog(
           content: Container(
-            child: Text('Are you sure you want to clear data entires? This process can not be undone.'),
+            child: Text('Are you sure you want to clear all data entries? This process can not be undone.'),
           ),
           actions: <Widget>[
             FlatButton(
