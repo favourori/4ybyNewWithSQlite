@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fourybyoffline/src/views/login.dart';
-import 'package:fourybyoffline/utils/color_utils.dart';
 import 'package:fourybyoffline/dashboard/dashboard.dart';
 import 'package:fourybyoffline/utils/margin_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +18,6 @@ class _ChooserState extends State<Chooser> {
 
   @override
   Widget build(BuildContext context) {
-    final logo = Image.asset('assets/appicons/logo.png', scale: 10);
 
     return Material(
         child: Padding(

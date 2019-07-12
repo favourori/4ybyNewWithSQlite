@@ -348,7 +348,7 @@ class _AllEntriesState extends State<AllEntries> {
         final Email email = Email(
           body: 'Find the data results in the attachment',
           subject: 'Data results',
-          recipients: ['rstomotayo@gmail.com'],
+          recipients: ['4youthbyouth@gmail.com'],
           attachmentPath: output.path,
         );
 

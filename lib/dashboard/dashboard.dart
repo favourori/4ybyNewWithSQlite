@@ -1,8 +1,6 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fourybyoffline/src/views/chooser.dart';
 import 'package:fourybyoffline/common/colors.dart';
-import 'package:fourybyoffline/common/constants.dart';
 import 'package:fourybyoffline/dashboard/contact_support.dart';
 import 'package:fourybyoffline/dashboard/introduction.dart';
 import 'package:url_launcher/url_launcher.dart';

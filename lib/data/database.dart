@@ -32,7 +32,7 @@ class DatabaseHelper {
         'CREATE TABLE IF NOT EXISTS responses (id INTEGER PRIMARY KEY, question TEXT, answer TEXT, studyID INTEGER)');
     await db.execute(
         'CREATE TABLE IF NOT EXISTS photos (id INTEGER PRIMARY KEY, photo1 TEXT, photo2 TEXT, photo3 TEXT, studyID INTEGER)');
-  }
+  } 
 
   Future<int> savePics(List<String> photos, int studyID) async {
     var dbClient = await db;

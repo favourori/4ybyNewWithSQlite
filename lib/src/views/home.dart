@@ -65,7 +65,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height * 0.2;
-    var width2 = MediaQuery.of(context).size.width * 0.6;
 
     final _drawer = Drawer(
       child: Container(

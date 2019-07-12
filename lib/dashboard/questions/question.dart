@@ -32,7 +32,7 @@ class Question {
 }
 
 class QuestionWidget extends StatefulWidget {
-  final Question question;
+  final Question question; 
   final ValueChanged<String> onInputtedAnswerChange;
   final ValueChanged<String> onSelectedAnswerChange;
 

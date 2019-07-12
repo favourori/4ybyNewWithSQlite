@@ -7,7 +7,6 @@ import 'package:fourybyoffline/dashboard/complete_wiget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fourybyoffline/data/database.dart';
-import 'package:path/path.dart' hide context;
 
 class UploadWidget extends StatefulWidget {
   @override

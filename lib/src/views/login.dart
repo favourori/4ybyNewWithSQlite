@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fourybyoffline/src/views/home.dart';
-import 'package:fourybyoffline/utils/color_utils.dart';
 import 'package:fourybyoffline/utils/margin_utils.dart';
 
 class Login extends StatefulWidget {

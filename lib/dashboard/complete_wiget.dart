@@ -1,12 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:fourybyoffline/common/constants.dart';
 import 'package:fourybyoffline/dashboard/dashboard.dart';
 import 'package:fourybyoffline/common/colors.dart';
 import 'package:fourybyoffline/dashboard/base_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fourybyoffline/src/views/home.dart';
 import 'package:fourybyoffline/dashboard/answer_manager.dart';
 
 class CompleteWidget extends StatefulWidget {
